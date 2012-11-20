@@ -9,5 +9,14 @@
 {% endblock %}
 
 {% block main %}
-{% trans "This is the homepage." %}
+    
+{% trans "Agent flat fee is a place for saving $$$" %}
+
+<h3>Select your state</h3>
+<ul>
+{% for r in active_region %}
+    <li>{{ r.region }}</li>
+{% endfor %}
+</ul>
+
 {% endblock %}
