@@ -5,7 +5,18 @@
 {% block title %}Flat Fee MLS for {{ city.name }} {{ region.name }}{% endblock %}
 
 {% block breadcrumb_menu %}
-<li class="active">{% trans "Home" %}</li>
+<li>
+    <a href="{% url home %}">{% trans "Home" %}</a>
+    <span class="divider">/</span>
+</li>
+{% endblock %}
+
+{% block extra_breadcrumb %}
+<li>
+    <a href="/listings/{{ region.name|slugify }}">{{ region.name }}</a>
+    <span class="divider">/</span>
+</li>
+    <li class="active">{{ city.name }}</li>
 {% endblock %}
 
 {% block main %}

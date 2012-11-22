@@ -13,6 +13,7 @@ from django.dispatch import receiver
 from django.core.mail import EmailMultiAlternatives
 from django.core.exceptions import ValidationError
 
+
 def home(request):
     active_region = ActiveRegion.objects.all()
     return render_to_response('index.html',{'active_region':active_region},

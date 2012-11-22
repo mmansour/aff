@@ -5,7 +5,14 @@
 {% block title %}{% trans "Home" %}{% endblock %}
 
 {% block breadcrumb_menu %}
-<li class="active">{% trans "Home" %}</li>
+<li>
+    <a href="{% url home %}">{% trans "Home" %}</a>
+    <span class="divider">/</span>
+</li>
+{% endblock %}
+
+{% block extra_breadcrumb %}
+    <li class="active">{{ region.name }}</li>
 {% endblock %}
 
 {% block main %}
