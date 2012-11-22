@@ -13,6 +13,16 @@ from django.dispatch import receiver
 from django.core.mail import EmailMultiAlternatives
 from django.core.exceptions import ValidationError
 
+from django.utils.translation import ugettext_lazy as _
+
+
+class LocationForm(forms.Form):
+#    logo = forms.ImageField(required=False,)
+#    username = forms.CharField(label=_("Create username"), required=True,)
+    email = forms.EmailField(label=_("Email address"), required=True,)
+    city = forms.CharField(label=_("City"), required=True,)
+    region = forms.CharField(label=_("State"), required=True,)
+
 
 def home(request):
     active_region = ActiveRegion.objects.all()
@@ -35,5 +45,29 @@ def city(request, region_slug, city_slug):
     except City.DoesNotExist:
         raise Http404
 
-    return render_to_response('pages/city.html',{'city':city, 'region':region},
+    init_data = {
+        'city':city.name,
+        'region':region.name,
+    }
+
+    form = LocationForm(auto_id=True, initial=init_data)
+    if request.method == "POST":
+       form = LocationForm(request.POST, auto_id=True)
+
+       if form.is_valid():
+           clean_email = form.cleaned_data['email']
+           clean_city = form.cleaned_data['city']
+           clean_state = form.cleaned_data['region']
+
+           request.session['clean_email'] = clean_email
+           request.session['clean_city'] = clean_city
+           request.session['clean_state'] = clean_state
+
+#           print request.session['clean_email']
+
+           redirect = "/"
+           return HttpResponseRedirect(redirect)
+
+
+    return render_to_response('pages/city.html',{'city':city, 'region':region, 'form':form},
                 context_instance=RequestContext(request))
