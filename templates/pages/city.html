@@ -6,19 +6,19 @@
 
 {% block breadcrumb_menu %}
 <li>
-    <a href="{% url home %}">{% trans "Home" %}</a>
-    <span class="divider">/</span>
+<a href="{% url home %}">{% trans "Home" %}</a>
+<span class="divider">/</span>
 </li>
 {% endblock %}
 
 {% block extra_breadcrumb %}
 <li>
-    <a href="/listings/{{ region.name|slugify }}">{{ region.name }}</a>
-    <span class="divider">/</span>
+<a href="/listings/{{ region.name|slugify }}">{{ region.name }}</a>
+<span class="divider">/</span>
 </li>
-    <li class="active">{{ city.name }}</li>
+<li class="active">{{ city.name }}</li>
 {% endblock %}
 
 {% block main %}
-    <h1>Flat Fee Listings in {{ city.name }} {{ region.name }}</h1>
+<h1>Flat Fee Listings in {{ city.name }} {{ region.name }}</h1>
 {% endblock %}

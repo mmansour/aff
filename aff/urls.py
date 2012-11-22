@@ -10,7 +10,6 @@ urlpatterns = patterns('aff.views',
     url(r'^listings/(?P<region_slug>[\w-]+)/(?P<city_slug>[\w-]+)/$', "city", name="city"),
 
 
-    
 #    (r'^success/$', 'success'),
 #    (r'^create-tshirt/$', 'create_shirt_form'),
 #    (r'^designer/$', 'designer'),
