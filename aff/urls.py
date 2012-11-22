@@ -6,6 +6,9 @@ from mezzanine.core.views import direct_to_template
 
 urlpatterns = patterns('aff.views',
     url("^$", "home", name="home"),
+    url(r'^listings/(?P<region_slug>[\w-]+)/$', "cities", name="cities"),
+    url(r'^listings/(?P<region_slug>[\w-]+)/(?P<city_slug>[\w-]+)/$', "city", name="city"),
+
 
     
 #    (r'^success/$', 'success'),

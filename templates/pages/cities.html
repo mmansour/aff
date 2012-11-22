@@ -10,12 +10,10 @@
 
 {% block main %}
     
-{% trans "Agent flat fee is a place for saving $$$" %}
-
-<h3>Select your state</h3>
+{% trans "List your home here now city" %}
 <ul>
-{% for r in active_region %}
-    <li><a href="listings/{{ r.region|slugify }}">{{ r.region }}</a></li>
+{% for c in region.city_set.all %}
+    <li><a href="/listings/{{ region.name|slugify }}/{{ c.name|slugify }}">{{ c.name }}</a></li>
 {% endfor %}
 </ul>
 

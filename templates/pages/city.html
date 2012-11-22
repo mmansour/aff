@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}Flat Fee MLS for {{ city.name }} {{ region.name }}{% endblock %}
+{% block title %}Flat Fee MLS for {{ city.name }} {{ region.name }}{% endblock %}
+
+{% block breadcrumb_menu %}
+<li class="active">{% trans "Home" %}</li>
+{% endblock %}
+
+{% block main %}
+    <h1>Flat Fee Listings in {{ city.name }} {{ region.name }}</h1>
+{% endblock %}
