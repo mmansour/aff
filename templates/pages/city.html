@@ -20,10 +20,9 @@
 {% endblock %}
 
 {% block main %}
-<h2>Start a listing in {{ city.name }}, {{ region.name }}</h2>
-
+{#<h2>Start a listing in {{ city.name }}, {{ region.name }}</h2>#}
 <fieldset>
-    <legend>{{ title }}</legend>
+    <legend>Street address for listing in {{ city.name }}, {{ region.name }}</legend>
     <form enctype="multipart/form-data" action="/listings/{{ region.name|slugify }}/{{ city.name|slugify }}/" method="post" id="add-location" autocomplete="on">
     {% csrf_token %}
     {{ form.as_p }}

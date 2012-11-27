@@ -19,7 +19,7 @@ from django.utils.translation import ugettext_lazy as _
 class LocationForm(forms.Form):
 #    logo = forms.ImageField(required=False,)
 #    username = forms.CharField(label=_("Create username"), required=True,)
-    email = forms.EmailField(label=_("Email address"), required=True,)
+    street_address = forms.CharField(label=_("Address of house to be listed"), required=True,)
     city = forms.CharField(label=_("City"), required=True,)
     region = forms.CharField(label=_("State"), required=True,)
 
@@ -55,19 +55,16 @@ def city(request, region_slug, city_slug):
        form = LocationForm(request.POST, auto_id=True)
 
        if form.is_valid():
-           clean_email = form.cleaned_data['email']
+           clean_street = form.cleaned_data['street_address']
            clean_city = form.cleaned_data['city']
            clean_state = form.cleaned_data['region']
 
-           request.session['clean_email'] = clean_email
+           request.session['clean_street'] = clean_street
            request.session['clean_city'] = clean_city
            request.session['clean_state'] = clean_state
 
-#           print request.session['clean_email']
-
-           redirect = "/"
+           redirect = "/account/signup/"
            return HttpResponseRedirect(redirect)
-
 
     return render_to_response('pages/city.html',{'city':city, 'region':region, 'form':form},
                 context_instance=RequestContext(request))
