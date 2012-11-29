@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}Property images{% endblock %}
+{% block title %}Property images{% endblock %}
+
+{% block breadcrumb_menu %}
+<li>
+<a href="{% url home %}">{% trans "Home" %}</a>
+<span class="divider">/</span>
+</li>
+{% endblock %}
+
+{% block extra_breadcrumb %}
+<li>
+<a href="/listings/{{ request.session.clean_state|slugify }}">{{ request.session.clean_state }}</a>
+<span class="divider">/</span>
+</li>
+<li>
+<a href="/listings/{{ request.session.clean_state|slugify }}/{{ request.session.clean_city|slugify }}">{{ request.session.clean_city }}</a>
+<span class="divider">/</span>
+</li>
+<li class="active">Property images</li>
+{% endblock %}
+
+{% block main %}
+{#<h2>Start a listing in {{ city.name }}, {{ region.name }}</h2>#}
+<fieldset>
+    <legend>Images for {{ request.session.clean_street }}, {{ request.session.clean_city }}, {{ request.session.clean_state }}</legend>
+    <form enctype="multipart/form-data" action="/propertyimages/" method="post" id="add-images" autocomplete="on">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="form-actions">
+        <input class="btn btn-primary btn-large" type="submit" value="Upload images">
+    </div>
+    </form>
+</fieldset>
+
+{% endblock %}

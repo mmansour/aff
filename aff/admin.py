@@ -12,8 +12,8 @@ class ProperyDescriptionAdmin(DisplayableAdmin):
     ]
 
 
-    list_display = ('title', 'publish_date', 'address1', 'city','state', 'status')
-#    list_display_links = ('user',)
+    list_display = ('title', 'city','state', 'user', 'publish_date', 'status')
+    list_display_links = ('title',)
 #    list_editable = ('is_order_closed',)
 #    list_filter = ['user','is_order_closed', 'publish_date',]
 #    search_fields = ['title',]

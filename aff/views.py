@@ -15,7 +15,7 @@ from django.core.exceptions import ValidationError
 
 from django.utils.translation import ugettext_lazy as _
 
-
+######################################### FORMS
 class LocationForm(forms.Form):
 #    logo = forms.ImageField(required=False,)
 #    username = forms.CharField(label=_("Create username"), required=True,)
@@ -24,6 +24,18 @@ class LocationForm(forms.Form):
     region = forms.CharField(label=_("State"), required=True,)
 
 
+class PropertyDescriptionForm(forms.Form):
+    square_feet = forms.CharField(label=_("Square footage"), required=True,)
+    number_of_bedrooms = forms.CharField(label=_("Number of bedrooms"), required=True,)
+    number_of_bathrooms = forms.CharField(label=_("Number of bathrooms"), required=True,)
+
+
+class ImageForm(forms.Form):
+    propertyimage = forms.ImageField(required=False,)
+
+
+
+######################################### VIEWS
 def home(request):
     active_region = ActiveRegion.objects.all()
     return render_to_response('index.html',{'active_region':active_region},
@@ -33,6 +45,62 @@ def home(request):
 def cities(request, region_slug):
     region = get_object_or_404(Region, slug=region_slug, country__id=234)
     return render_to_response('pages/cities.html',{'region':region},
+                context_instance=RequestContext(request))
+
+
+def propertyimages(request):
+    init_data = {
+#        'city':city.name,
+#        'region':region.name,
+    }
+
+    form = ImageForm(auto_id=True, initial=init_data)
+    if request.method == "POST":
+       form = ImageForm(request.POST, request.FILES, auto_id=True)
+       if form.is_valid():
+            #do stuff
+            propertyimage = PropertyImage(
+                img = form.cleaned_data['propertyimage'],
+#                property = request.user
+            )
+
+            propertyimage.save()
+
+            redirect = "/propertyimages/"
+            return HttpResponseRedirect(redirect)
+    return render_to_response('pages/propertyimages.html',{'form':form},
+                context_instance=RequestContext(request))
+
+
+
+def propertydescription(request):
+
+    init_data = {
+#        'city':city.name,
+#        'region':region.name,
+    }
+
+    form = PropertyDescriptionForm(auto_id=True, initial=init_data)
+    if request.method == "POST":
+       form = PropertyDescriptionForm(request.POST, auto_id=True)
+       if form.is_valid():
+            #do stuff
+            property = PropertyDescription(
+                title="{0} {1} {2}".format(request.session['clean_street'],request.session['clean_city'],request.session['clean_state']),
+                address1=request.session['clean_street'],
+                city=request.session['clean_city'],
+                state=request.session['clean_state'],
+                square_feet=form.cleaned_data['square_feet'],
+                number_of_bedrooms=form.cleaned_data['number_of_bedrooms'],
+                number_of_bathrooms=form.cleaned_data['number_of_bathrooms'],
+                user = request.user
+            )
+
+            property.save()
+
+            redirect = "/propertyimages/"
+            return HttpResponseRedirect(redirect)
+    return render_to_response('pages/propertydescription.html',{'form':form},
                 context_instance=RequestContext(request))
 
 
@@ -63,7 +131,7 @@ def city(request, region_slug, city_slug):
            request.session['clean_city'] = clean_city
            request.session['clean_state'] = clean_state
 
-           redirect = "/account/signup/"
+           redirect = "/account/signup/?next=/propertydescription/"
            return HttpResponseRedirect(redirect)
 
     return render_to_response('pages/city.html',{'city':city, 'region':region, 'form':form},
