@@ -1,8 +1,27 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n mezzanine_tags %}
 
 {% block meta_title %}Property images{% endblock %}
 {% block title %}Property images{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+<style type="text/css">
+    #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+    #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 148px; }
+    #sortable li span { position: absolute; margin-left: -1.3em; }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+<script type="text/javascript">
+$(function() {
+    $( "#sortable" ).sortable();
+    $( "#sortable" ).disableSelection();
+});
+</script>
+{% endblock %}
 
 {% block breadcrumb_menu %}
 <li>
@@ -27,7 +46,7 @@
 {#<h2>Start a listing in {{ city.name }}, {{ region.name }}</h2>#}
 <fieldset>
     <legend>Images for {{ request.session.clean_street }}, {{ request.session.clean_city }}, {{ request.session.clean_state }}</legend>
-    <form enctype="multipart/form-data" action="/propertyimages/" method="post" id="add-images" autocomplete="on">
+    <form enctype="multipart/form-data" action="/propertyimages/{{ property.id }}/" method="post" id="add-images" autocomplete="on">
     {% csrf_token %}
     {{ form.as_p }}
     <div class="form-actions">
@@ -35,5 +54,18 @@
     </div>
     </form>
 </fieldset>
+
+{% if property.propertyimage_set.count > 0 %}
+<div id="images">
+<p>Drag thumbnails to order your images the way you want them to appear in listings.</p>
+<p>The first image will be your primary image</p>
+<ul id="sortable">
+    {% for img in property.propertyimage_set.all %}
+    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+    <img src="{{ STATIC_URL }}media/{% thumbnail img 138 138 %}" alt="Img number {{ forloop.counter }}"  /></li>
+    {% endfor %}
+</ul>
+</div>
+{% endif %}
 
 {% endblock %}

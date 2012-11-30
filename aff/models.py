@@ -36,9 +36,10 @@ class PropertyDescription(Displayable):
 class PropertyImage(models.Model):
     img = models.ImageField(upload_to="uploads", blank=True, null=True, default='uploads/default.png')
     property = models.ForeignKey(PropertyDescription, blank=True, null=True)
+    position = models.IntegerField(blank=True, null=True)
 
     def __unicode__(self):
-        return self.img
+        return self.img.name
 
 
 

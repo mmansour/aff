@@ -34,7 +34,6 @@ class ImageForm(forms.Form):
     propertyimage = forms.ImageField(required=False,)
 
 
-
 ######################################### VIEWS
 def home(request):
     active_region = ActiveRegion.objects.all()
@@ -48,11 +47,13 @@ def cities(request, region_slug):
                 context_instance=RequestContext(request))
 
 
-def propertyimages(request):
+def propertyimages(request, property_id):
     init_data = {
 #        'city':city.name,
 #        'region':region.name,
     }
+
+    property = PropertyDescription.objects.get(id=property_id)
 
     form = ImageForm(auto_id=True, initial=init_data)
     if request.method == "POST":
@@ -61,14 +62,14 @@ def propertyimages(request):
             #do stuff
             propertyimage = PropertyImage(
                 img = form.cleaned_data['propertyimage'],
-#                property = request.user
+                property = property
             )
 
             propertyimage.save()
 
-            redirect = "/propertyimages/"
+            redirect = '{0}'.format(request.path)
             return HttpResponseRedirect(redirect)
-    return render_to_response('pages/propertyimages.html',{'form':form},
+    return render_to_response('pages/propertyimages.html',{'property':property, 'form':form},
                 context_instance=RequestContext(request))
 
 
@@ -98,7 +99,7 @@ def propertydescription(request):
 
             property.save()
 
-            redirect = "/propertyimages/"
+            redirect = "/propertyimages/{0}/".format(property.id)
             return HttpResponseRedirect(redirect)
     return render_to_response('pages/propertydescription.html',{'form':form},
                 context_instance=RequestContext(request))

@@ -1,6 +1,9 @@
-from aff.models import ActiveRegion, PropertyDescription
+from aff.models import ActiveRegion, PropertyDescription, PropertyImage
 from django.contrib import admin
 from mezzanine.core.admin import DisplayableAdmin
+
+class PropertyImageInline(admin.TabularInline):
+    model = PropertyImage
 
 class ProperyDescriptionAdmin(DisplayableAdmin):
 
@@ -9,6 +12,10 @@ class ProperyDescriptionAdmin(DisplayableAdmin):
         ("Published Date",              {'fields': ['publish_date']}),
         ("Published Status",            {'fields': ['status']}),
         ("Address",                     {'fields':['address1', 'city','state']}),
+    ]
+
+    inlines = [
+        PropertyImageInline,
     ]
 
 
