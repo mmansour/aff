@@ -57,18 +57,21 @@ def propertyimages(request, property_id):
 
     form = ImageForm(auto_id=True, initial=init_data)
     if request.method == "POST":
-       form = ImageForm(request.POST, request.FILES, auto_id=True)
-       if form.is_valid():
-            #do stuff
-            propertyimage = PropertyImage(
-                img = form.cleaned_data['propertyimage'],
-                property = property
-            )
-
-            propertyimage.save()
-
-            redirect = '{0}'.format(request.path)
-            return HttpResponseRedirect(redirect)
+        if request.GET.get('sorted') == 'true':
+            sort_raw_data = request.POST['sorted_images']
+            print 'Raw data %s' % sort_raw_data
+#            redirect = '{0}'.format(request.path)
+#            return HttpResponseRedirect(redirect)
+        else:
+           form = ImageForm(request.POST, request.FILES, auto_id=True)
+           if form.is_valid():
+                propertyimage = PropertyImage(
+                    img = form.cleaned_data['propertyimage'],
+                    property = property
+                )
+                propertyimage.save()
+                redirect = '{0}'.format(request.path)
+                return HttpResponseRedirect(redirect)
     return render_to_response('pages/propertyimages.html',{'property':property, 'form':form},
                 context_instance=RequestContext(request))
 
