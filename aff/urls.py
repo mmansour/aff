@@ -10,6 +10,8 @@ urlpatterns = patterns('aff.views',
     url(r'^listings/(?P<region_slug>[\w-]+)/(?P<city_slug>[\w-]+)/$', "city", name="city"),
     url(r'^propertydescription/$', "propertydescription", name="propertydescription"),
     url(r'^propertyimages/(?P<property_id>\d+)/$', "propertyimages", name="propertyimages"),
+    url(r'^viewproperty/(?P<property_slug>[\w-]+)/$', "viewproperty", name="viewproperty"),
+
 
 
 

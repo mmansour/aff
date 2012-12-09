@@ -21,9 +21,9 @@ class PropertyDescription(Displayable):
     number_of_bathrooms = models.CharField(max_length=10, verbose_name="Number of bathrooms", blank=True, null=True)
     user = models.ForeignKey(User, blank=True, null=True)
 
-#    @models.permalink
-#    def get_absolute_url(self):
-#       return ('gohotels.views.detail', [self.slug, self.hotelid])
+    @models.permalink
+    def get_absolute_url(self):
+       return ('aff.views.viewproperty', [self.slug])
 
 #    def save(self, *args, **kwargs):
 #       self.point = Point(float(self.longitude), float(self.latitude))

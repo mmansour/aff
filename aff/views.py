@@ -41,6 +41,12 @@ def home(request):
                 context_instance=RequestContext(request))
 
 
+def viewproperty(request, property_slug):
+    property = get_object_or_404(PropertyDescription, slug=property_slug)
+    return render_to_response('pages/viewproperty.html',{'property':property},
+                context_instance=RequestContext(request))
+
+
 def cities(request, region_slug):
     region = get_object_or_404(Region, slug=region_slug, country__id=234)
     return render_to_response('pages/cities.html',{'region':region},

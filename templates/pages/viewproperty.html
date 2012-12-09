@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}View Property{% endblock %}
+{% block title %}View Property{% endblock %}
+
+{% block breadcrumb_menu %}
+<li>
+<a href="{% url home %}">{% trans "Home" %}</a>
+<span class="divider">/</span>
+</li>
+{% endblock %}
+
+{% block extra_breadcrumb %}
+<li>
+{#<a href="/listings/{{ request.session.clean_state|slugify }}">{{ request.session.clean_state }}</a>#}
+{#<span class="divider">/</span>#}
+{#</li>#}
+{#<li>#}
+{#<a href="/listings/{{ request.session.clean_state|slugify }}/{{ request.session.clean_city|slugify }}">{{ request.session.clean_city }}</a>#}
+{#<span class="divider">/</span>#}
+{#</li>#}
+<li class="active">View Property</li>
+{% endblock %}
+
+{% block main %}
+<h2>View Property {{ property.title }}</h2>
+
+{% comment %}<fieldset>
+    <legend>Listing info for {{ request.session.clean_street }}, {{ request.session.clean_city }}, {{ request.session.clean_state }}</legend>
+    <form enctype="multipart/form-data" action="/propertydescription/" method="post" id="add-location" autocomplete="on">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="form-actions">
+        <input class="btn btn-primary btn-large" type="submit" value="Add property description">
+    </div>
+    </form>
+</fieldset>{% endcomment %}
+
+{% endblock %}
