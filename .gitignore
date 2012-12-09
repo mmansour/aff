@@ -18,6 +18,4 @@ notes/
 log/
 migrations/
 static/media/
-!aff/urls.py
-
 
