@@ -20,5 +20,16 @@
 {% endblock %}
 
 {% block main %}
-<h1>Flat Fee Listings in {{ city.name }} {{ region.name }}</h1>
+{#<h2>Start a listing in {{ city.name }}, {{ region.name }}</h2>#}
+<fieldset>
+    <legend>Street address for listing in {{ city.name }}, {{ region.name }}</legend>
+    <form enctype="multipart/form-data" action="/listings/{{ region.name|slugify }}/{{ city.name|slugify }}/" method="post" id="add-location" autocomplete="on">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="form-actions">
+        <input class="btn btn-primary btn-large" type="submit" value="Add Location">
+    </div>
+    </form>
+</fieldset>
+
 {% endblock %}

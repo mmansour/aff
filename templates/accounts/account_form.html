@@ -11,14 +11,21 @@
 {% endblock %}
 
 {% block main %}
+
 <fieldset>
-    <legend>{{ title }}</legend>
-    <form method="post">
-    {% fields_for form %}
-    <div class="form-actions">
-        <input class="btn btn-primary btn-large" type="submit" value="{{ title }}">
-    </div>
-    </form>
+<legend>
+{% if request.session.clean_street  %}
+Create account to manage listing:<br/> <em>{{ request.session.clean_street }}, {{ request.session.clean_city }}, {{ request.session.clean_state }}</em>
+{% else %}
+Create account:
+{% endif %}
+</legend>
+<form method="post">
+{% fields_for form %}
+<div class="form-actions">
+<input class="btn btn-primary btn-large" type="submit" value="{{ title }}">
+</div>
+</form>
 </fieldset>
 {% endblock %}
 
