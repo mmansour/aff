@@ -21,10 +21,10 @@ $(document).ready(function(){
     $("#sortable").sortable({
         stop : function(event, ui){
 //          alert($(this).sortable('serialize'));
-            $('input[name=sorted_images]').val($(this).sortable('serialize'));
+            $('input[name=sorted_images]').val($(this).sortable('toArray'));
         }
     });
-    $('input[name=sorted_images]').val($("#sortable").sortable('serialize'));
+    $('input[name=sorted_images]').val($("#sortable").sortable('toArray'));
     $("#sortable").disableSelection();
 });//ready
 
@@ -40,11 +40,11 @@ $(document).ready(function(){
 
 {% block extra_breadcrumb %}
 <li>
-<a href="/listings/{{ request.session.clean_state|slugify }}">{{ request.session.clean_state }}</a>
+<a href="/listings/{{ property.state|slugify }}">{{ property.state }}</a>
 <span class="divider">/</span>
 </li>
 <li>
-<a href="/listings/{{ request.session.clean_state|slugify }}/{{ request.session.clean_city|slugify }}">{{ request.session.clean_city }}</a>
+<a href="/listings/{{ property.state|slugify }}/{{ property.city|slugify }}">{{ property.city }}</a>
 <span class="divider">/</span>
 </li>
 <li class="active">Property images</li>
@@ -53,7 +53,7 @@ $(document).ready(function(){
 {% block main %}
 {#<h2>Start a listing in {{ city.name }}, {{ region.name }}</h2>#}
 <fieldset>
-    <legend>Images for {{ request.session.clean_street }}, {{ request.session.clean_city }}, {{ request.session.clean_state }}</legend>
+    <legend>Images for {{ property.address1 }}, {{ property.city }}, {{ property.state }}</legend>
     <form enctype="multipart/form-data" action="/propertyimages/{{ property.id }}/" method="post" id="upload-image" autocomplete="on">
     {% csrf_token %}
     {{ form.as_p }}
@@ -73,11 +73,11 @@ $(document).ready(function(){
 <p>The first image will be your primary image</p>
 <ul id="sortable">
     {% for img in property.propertyimage_set.all %}
-    <li class="ui-state-default" id="image_{{ forloop.counter }}"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
-    <img src="{{ STATIC_URL }}media/{% thumbnail img 138 138 %}" alt="Img number {{ forloop.counter }}"/></li>
+    <li class="ui-state-default" id="image_{{ forloop.counter }}&{{ img }}"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+    <img src="{{ STATIC_URL }}media/{% thumbnail img.img 138 138 %}" alt="Img number {{ forloop.counter }}"/></li>
     {% endfor %}
-    <input class="btn btn-primary btn-large" type="submit" value="Add Images -> Listing Agreement">
 </ul>
+<input class="btn btn-primary btn-large" type="submit" value="Add Images -> Listing Agreement">
 </div>
 </form>
 {% endif %}

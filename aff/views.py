@@ -59,7 +59,14 @@ def propertyimages(request, property_id):
     if request.method == "POST":
         if request.GET.get('sorted') == 'true':
             sort_raw_data = request.POST['sorted_images']
-            print 'Raw data %s' % sort_raw_data
+            for idx,item in enumerate(sort_raw_data.split(',')):
+                if item:
+                    data_path = item.split('&')
+#                    print idx, data_path[1]
+                    property_image = property.propertyimage_set.get(img=data_path[1])
+                    property_image.position = idx
+                    property_image.save()
+
 #            redirect = '{0}'.format(request.path)
 #            return HttpResponseRedirect(redirect)
         else:
